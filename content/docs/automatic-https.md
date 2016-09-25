@@ -58,6 +58,16 @@ If Caddy is behind other infrastructure, it may have trouble validating the doma
 
 When Caddy obtains a certificate from a CA that publishes certificate transparency logs, it is requisite that your domain name and/or IP address will be included in those logs, as they are not considered private information. (Let's Encrypt is one such CA.) This is a good thing; certificate transparency reports [keep the CAs accountable](https://googleonlinesecurity.blogspot.com/2015/10/sustaining-digital-certificate-security.html).
 
+#### Logging Redirects
+
+By default, Caddy does not generate log statements when it sends a 301 redirect automatically from an HTTP site to the corresponding HTTPS site. The appropriate way to generate these logs is to include a separate configuration directive for the HTTP site like the following:
+```
+http://www.example.com {
+    redir https://www.example.com{uri}
+    log
+}
+```
+
 ## DNS Challenge
 
 There are three challenge types by which Caddy can obtain certificates. Caddy can use two of them without any configuration, but another one—the DNS challenge—requires configuration and can be used when the other challenge types would fail. Caddy supports [a number of DNS providers](https://github.com/caddyserver/dnsproviders).
